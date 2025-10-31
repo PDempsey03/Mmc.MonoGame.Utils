@@ -101,5 +101,34 @@ namespace Mmc.MonoGame.Utils.Tests
 
             RunNonLoopingTimer(timer, dt, maxUpdateCount);
         }
+
+        [TestMethod]
+        public void ScheduledActions()
+        {
+            TimeSpan dt = TimeSpan.FromSeconds(1f / 60f);
+
+            GameTimer timer = new GameTimer();
+
+            const int TotalSeconds = 2;
+            timer.Duration = TimeSpan.FromSeconds(TotalSeconds);
+
+            int scheduledActionsCallBackCount = 0;
+            void scheduledAction() => scheduledActionsCallBackCount++;
+
+            const int ScheduledActions = 30;
+
+            for (int i = 0; i < ScheduledActions; i++)
+            {
+                TimeSpan scheduledTime = TimeSpan.FromSeconds((float)i / ScheduledActions * (float)TotalSeconds);
+                Debug.WriteLine($"Scheduled time at {scheduledTime.TotalSeconds} seconds.");
+                timer.ScheduleTimeAction(scheduledTime, scheduledAction);
+            }
+
+            int maxUpdateCount = 1000;
+
+            RunNonLoopingTimer(timer, dt, maxUpdateCount);
+
+            Assert.AreEqual(scheduledActionsCallBackCount, ScheduledActions);
+        }
     }
 }
