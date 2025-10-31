@@ -31,8 +31,36 @@ namespace Mmc.MonoGame.Utils.Tests
             }
         }
 
+        private static void RunLoopingTimer(GameTimer timer, TimeSpan dt, int maxRepeats, int maxUpdates)
+        {
+            TimeSpan total = TimeSpan.Zero;
+
+            timer.Start();
+
+            int repeatCount;
+            for (repeatCount = 0; repeatCount < maxRepeats && timer.Enabled; repeatCount++)
+            {
+                int currentUpdate;
+                for (currentUpdate = 0; currentUpdate < maxUpdates && timer.Enabled; currentUpdate++)
+                {
+                    total += dt;
+                    timer.Update(new GameTime(total, dt));
+                }
+
+                if (currentUpdate == maxUpdates)
+                {
+                    Assert.Fail("Max update count reached, something went wrong");
+                }
+            }
+
+            if (repeatCount == maxRepeats)
+            {
+                Assert.Fail("Max repeat count reached, something went wrong");
+            }
+        }
+
         [TestMethod]
-        public void UpdateMethodBeingCalled()
+        public void Update_WhenCalled_InvokesUpdatedEvent()
         {
             TimeSpan dt = TimeSpan.FromSeconds(1f / 16f);
 
@@ -51,7 +79,7 @@ namespace Mmc.MonoGame.Utils.Tests
         }
 
         [TestMethod]
-        public void CompleteMethodBeingCalled()
+        public void Update_WhenTimerCompletes_InvokesTimerCompletedEvent()
         {
             TimeSpan dt = TimeSpan.FromSeconds(1f / 16f);
 
@@ -70,7 +98,7 @@ namespace Mmc.MonoGame.Utils.Tests
         }
 
         [TestMethod]
-        public void CorrectDeltaTimes()
+        public void Update_WithDeltaTimes_AccumulatesCorrectly()
         {
             const double DurationSeconds = .5;
             TimeSpan totalTime = TimeSpan.Zero;
@@ -103,7 +131,7 @@ namespace Mmc.MonoGame.Utils.Tests
         }
 
         [TestMethod]
-        public void ScheduledActions()
+        public void Update_WhenScheduledActionTimeReached_ExecutesAction()
         {
             TimeSpan dt = TimeSpan.FromSeconds(1f / 60f);
 
@@ -129,6 +157,35 @@ namespace Mmc.MonoGame.Utils.Tests
             RunNonLoopingTimer(timer, dt, maxUpdateCount);
 
             Assert.AreEqual(ScheduledActions, scheduledActionsCallBackCount);
+        }
+
+        [TestMethod]
+        public void Update_WhenTimerIsRepeating_ResetsAfterCompletion()
+        {
+            TimeSpan dt = TimeSpan.FromSeconds(1f / 16f);
+
+            GameTimer timer = new GameTimer();
+            timer.Repeating = true;
+            timer.Duration = TimeSpan.FromSeconds(1);
+
+            const int TotalTimerCompletionsDesired = 5;
+            int timesTimerCompleted = 0;
+
+            timer.TimerCompleted += (s, e) =>
+            {
+                timesTimerCompleted++;
+                if (timesTimerCompleted == TotalTimerCompletionsDesired)
+                {
+                    timer.Repeating = false;
+                    timer.Reset();
+                }
+            };
+
+            int maxUpdateCount = 1000;
+
+            RunLoopingTimer(timer, dt, TotalTimerCompletionsDesired + 1, maxUpdateCount);
+
+            Assert.AreEqual(TotalTimerCompletionsDesired, timesTimerCompleted);
         }
     }
 }
