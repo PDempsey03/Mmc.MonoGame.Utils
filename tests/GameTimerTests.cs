@@ -128,7 +128,7 @@ namespace Mmc.MonoGame.Utils.Tests
 
             RunNonLoopingTimer(timer, dt, maxUpdateCount);
 
-            Assert.AreEqual(scheduledActionsCallBackCount, ScheduledActions);
+            Assert.AreEqual(ScheduledActions, scheduledActionsCallBackCount);
         }
     }
 }
