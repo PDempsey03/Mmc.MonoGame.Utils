@@ -5,7 +5,7 @@ namespace Mmc.MonoGame.Utils
     public class GameTimer : IUpdateable
     {
         protected int _updateOrder = 0;
-        protected bool _enabled = true;
+        protected bool _enabled = false;
 
         protected readonly List<ScheduledAction> scheduledActions = [];
         protected int scheduleActionsCurrentIndex = 0;
@@ -55,7 +55,11 @@ namespace Mmc.MonoGame.Utils
             if (!Enabled) return;
 
             // update to new time
-            CurrentTime.Add(gameTime.ElapsedGameTime);
+            CurrentTime += gameTime.ElapsedGameTime;
+
+            bool complete = CurrentTime >= Duration;
+
+            if (complete) CurrentTime = Duration;
 
             // invoke event called on every update cycle
             Updated?.Invoke(this, new GameTimerUpdateEventArgs(CurrentTime, Duration));
@@ -63,11 +67,8 @@ namespace Mmc.MonoGame.Utils
             // check for actions called on specific times
             CheckScheduledActions();
 
-            // check for timer completion
-            if (CurrentTime >= Duration)
-            {
+            if (complete)
                 HandleTimerCompletion();
-            }
         }
 
         protected virtual void CheckScheduledActions()
@@ -77,9 +78,7 @@ namespace Mmc.MonoGame.Utils
                 var currentScheduledAction = GetCurrentScheduledAction();
 
                 if (!currentScheduledAction.HasValue || CurrentTime < currentScheduledAction.Value.TriggerTime)
-                {
                     break;
-                }
 
                 currentScheduledAction.Value.Action?.Invoke();
                 scheduleActionsCurrentIndex++;
@@ -94,30 +93,30 @@ namespace Mmc.MonoGame.Utils
 
         public void SetDurationInMinutesAndSeconds(double minutes, double seconds) => SetDurationInSeconds(minutes * 60 + seconds);
 
-        private void HandleTimerCompletion()
+        protected virtual void HandleTimerCompletion()
         {
             Reset();
             Enabled = Repeating;
             TimerCompleted?.Invoke(this, new EventArgs());
         }
 
-        public void Start()
+        public virtual void Start()
         {
             Reset();
             Enabled = true;
         }
 
-        public void Pause()
+        public virtual void Pause()
         {
             Enabled = false;
         }
 
-        public void Resume()
+        public virtual void Resume()
         {
             Enabled = true;
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
             CurrentTime = TimeSpan.Zero;
             Enabled = false;
@@ -138,7 +137,7 @@ namespace Mmc.MonoGame.Utils
             scheduledActions.Clear();
         }
 
-        private ScheduledAction? GetCurrentScheduledAction()
+        protected ScheduledAction? GetCurrentScheduledAction()
         {
             return (scheduleActionsCurrentIndex >= 0 && scheduleActionsCurrentIndex < scheduledActions.Count) ? scheduledActions[scheduleActionsCurrentIndex] : null;
         }
