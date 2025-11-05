@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Mmc.MonoGame.Utils.Tests.Extensions;
 using System.Diagnostics;
 
 namespace Mmc.MonoGame.Utils.Tests
@@ -6,12 +7,6 @@ namespace Mmc.MonoGame.Utils.Tests
     [TestClass]
     public sealed class GameTimerTests
     {
-        private static bool AreNearlyEqual(double a, double b, double epsilon)
-        {
-            double diff = Math.Abs(a - b);
-            return diff <= epsilon;
-        }
-
         private static void RunNonLoopingTimer(GameTimer timer, TimeSpan dt, int maxUpdates)
         {
             TimeSpan total = TimeSpan.Zero;
@@ -122,7 +117,7 @@ namespace Mmc.MonoGame.Utils.Tests
                     $"Percent Complete: {e.CurrentTime / e.Duration * 100:f2}%\n" +
                     "----------------------------");
 
-                Assert.IsTrue(AreNearlyEqual(Math.Min(DtSeconds * updateCount, DurationSeconds), e.CurrentTime.TotalSeconds, Epsilon));
+                Assert.IsTrue(Math.Min(DtSeconds * updateCount, DurationSeconds).AreNearlyEqual(e.CurrentTime.TotalSeconds, Epsilon));
             };
 
             int maxUpdateCount = 1000;
