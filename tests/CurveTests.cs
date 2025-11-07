@@ -199,4 +199,37 @@ public class CurveTests
 
         Curve2DVisualizer.VisualizeCurve(settings);
     }
+
+    [TestMethod]
+    public void TestGenericBezierCurve2D()
+    {
+        GenericBezierCurve2D test = new GenericBezierCurve2D(new Vector2(0, 0), new Vector2(10, 4), new Vector2(0, -8),
+            new Vector2(-6, 0), new Vector2(0, 4), new Vector2(12, -5), new Vector2(-9, -6));
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 50,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png"
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+    }
+
+    [TestMethod]
+    public void TestEvenlySpacedGenericBezierCurve2D()
+    {
+        GenericBezierCurve2D test = new GenericBezierCurve2D(new Vector2(0, 0), new Vector2(10, 4), new Vector2(0, -8),
+            new Vector2(-6, 0), new Vector2(0, 4), new Vector2(12, -5), new Vector2(-9, -6));
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 100,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+            UseEvenlySpacedPoints = true,
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+    }
 }

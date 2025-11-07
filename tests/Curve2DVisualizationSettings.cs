@@ -10,6 +10,8 @@ namespace Mmc.MonoGame.Utils.Tests
 
         public required string FileName { get; set; }
 
+        public bool UseEvenlySpacedPoints { get; set; } = false;
+
         public float MarkerSize { get; set; } = 5;
 
         public string Title { get; set; } = "Plot";

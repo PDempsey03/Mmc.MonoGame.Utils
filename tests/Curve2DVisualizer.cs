@@ -11,7 +11,7 @@ namespace Mmc.MonoGame.Utils.Tests
             var curve = settings.Curve;
             var samplePoints = settings.SamplePoints;
 
-            var points = curve.GetPoints(samplePoints);
+            var points = settings.UseEvenlySpacedPoints ? curve.GetEvenlySpacedPoints(samplePoints) : curve.GetPoints(samplePoints);
 
             double[] x = points.Select(p => (double)p.X).ToArray();
             double[] y = points.Select(p => (double)p.Y).ToArray();

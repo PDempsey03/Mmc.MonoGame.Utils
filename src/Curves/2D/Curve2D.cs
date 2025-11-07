@@ -49,5 +49,66 @@ namespace Mmc.MonoGame.Utils.Curves._2D
 
             return points;
         }
+
+        public virtual Vector2[] GetEvenlySpacedPoints(int numPoints, int superSamplingSize = 1024)
+        {
+            // Uses the arc length reparameterization technique
+
+            // 1. Run super sampling to approximate arc length
+            Vector2[] superSampling = GetPoints(superSamplingSize);
+
+            // 2. calculate cumulative distances
+            List<float> normalizedCumulativeDistances = new List<float>(superSamplingSize)
+            {
+                0
+            };
+
+            float runningCumulativeDistance = 0;
+            for (int i = 1; i < superSamplingSize; i++)
+            {
+                runningCumulativeDistance += Vector2.Distance(superSampling[i], superSampling[i - 1]);
+                normalizedCumulativeDistances.Add(runningCumulativeDistance);
+            }
+
+            // 3. normalize distances so that they are [0,1] and can be used as the new parameter value
+            for (int i = 0; i < superSamplingSize; i++)
+            {
+                normalizedCumulativeDistances[i] /= runningCumulativeDistance;
+            }
+
+            // 4. Use the cumulative distances to get the desired amount of evenly spaced points
+            Vector2[] result = new Vector2[numPoints];
+            for (int i = 0; i < numPoints; i++)
+            {
+                float t = i / (numPoints - 1f);
+
+                int index = normalizedCumulativeDistances.BinarySearch(t);
+                if (index < 0)
+                {
+                    index = ~index;
+                }
+
+                if (index == 0)
+                {
+                    result[i] = superSampling[i];
+                }
+                else
+                {
+                    // 4.5. Since it is almost certain it will land between 2 super sampled points, lerp between them for a more precise value
+                    float d0 = normalizedCumulativeDistances[index - 1]; // this one is behind it
+                    float d1 = normalizedCumulativeDistances[index]; // this one is in front of it
+
+                    float firstT = (float)(index - 1) / (superSamplingSize - 1);
+                    float secondT = (float)index / (superSamplingSize - 1);
+                    float lerpT = (t - d0) / (d1 - d0);
+
+                    float finalT = MathHelper.Lerp(firstT, secondT, lerpT);
+
+                    result[i] = GetPoint(finalT);
+                }
+            }
+
+            return result;
+        }
     }
 }
