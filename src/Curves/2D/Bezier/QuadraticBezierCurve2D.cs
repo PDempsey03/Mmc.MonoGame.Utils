@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Mmc.MonoGame.Utils.Curves._2D.Polynomial;
 
 namespace Mmc.MonoGame.Utils.Curves._2D.Bezier
 {
@@ -36,6 +37,19 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Bezier
             Vector2 total = p0Comp + p1Comp + p2Comp;
 
             return total;
+        }
+
+        public QuadraticCurve2D ToQuadraticCurve2D()
+        {
+            const float LerpValue = .5f;
+
+            var start = GetPoint(0);
+            var end = GetPoint(1);
+            var middle = GetPoint(LerpValue);
+
+            var result = new QuadraticCurve2D(start, end, middle, LerpValue);
+
+            return result;
         }
     }
 }

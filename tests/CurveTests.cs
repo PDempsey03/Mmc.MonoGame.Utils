@@ -232,4 +232,30 @@ public class CurveTests
 
         Curve2DVisualizer.VisualizeCurve(settings);
     }
+
+    [TestMethod]
+    public void TestQuadraticBezierToQuadraticCurve2D()
+    {
+        QuadraticBezierCurve2D test = new QuadraticBezierCurve2D(new Vector2(0, 0), new Vector2(10, 4), new Vector2(0, -8));
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 20,
+            FileName = $"pre_{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+
+        QuadraticCurve2D test2 = test.ToQuadraticCurve2D();
+
+        Curve2DVisualizationSettings settings2 = new Curve2DVisualizationSettings()
+        {
+            Curve = test2,
+            SamplePoints = 20,
+            FileName = $"post_{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings2);
+    }
 }

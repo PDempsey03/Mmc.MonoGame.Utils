@@ -30,14 +30,6 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Polynomial
             if (otherT <= 0 || otherT >= 1)
                 throw new ArgumentException($"{nameof(otherT)} must be between 0 and 1 (exclusive).", nameof(otherT));
 
-            // Online solution
-            /*C = start;
-
-            A = (other - start - otherT * (end - start)) / (otherT * otherT - otherT);
-
-            B = (end - start) - A;*/
-
-            // My solution  
             float otherTSquared = otherT * otherT;
 
             C = start;
@@ -58,11 +50,6 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Polynomial
         public override Vector2 GetTangent(float t)
         {
             return 2 * A * t + B;
-        }
-
-        public static QuadraticCurve2D FromQuadraticBezier2D()
-        {
-            return null; // TODO: implement 
         }
     }
 }
