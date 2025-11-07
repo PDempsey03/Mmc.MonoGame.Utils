@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Mmc.MonoGame.Utils.Curves._2D;
+using Mmc.MonoGame.Utils.Curves._2D.Polynomial;
 
 namespace Mmc.MonoGame.Utils.Tests.Extensions
 {

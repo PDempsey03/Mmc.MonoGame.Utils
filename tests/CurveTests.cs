@@ -136,7 +136,7 @@ public class CurveTests
     }
 
     [TestMethod]
-    public void TestQuadtraticBezierCurve2DWithNormals()
+    public void TestQuadraticBezierCurve2DWithNormals()
     {
         QuadraticBezierCurve2D test = new QuadraticBezierCurve2D(new Vector2(0, 0), new Vector2(10, 4), new Vector2(0, -8));
 
@@ -168,7 +168,7 @@ public class CurveTests
     }
 
     [TestMethod]
-    public void TestGenericBezierCurve2D()
+    public void TestGenericBezierCurve2DWithNormals()
     {
         GenericBezierCurve2D test = new GenericBezierCurve2D(new Vector2(0, 0), new Vector2(10, 4), new Vector2(0, -8),
             new Vector2(-6, 0), new Vector2(0, 4), new Vector2(12, -5), new Vector2(-9, -6));
@@ -179,6 +179,21 @@ public class CurveTests
             SamplePoints = 50,
             FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
             ShowNormals = true
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+    }
+
+    [TestMethod]
+    public void TestGenericPolynomialCurveCurve2D()
+    {
+        GenericPolynomialCurve2D test = new GenericPolynomialCurve2D(new Vector2(-5, 25), new Vector2(10, -100), new Vector2(0, 100));
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 50,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
         };
 
         Curve2DVisualizer.VisualizeCurve(settings);

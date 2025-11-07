@@ -1,4 +1,4 @@
-﻿using Mmc.MonoGame.Utils.Curves._2D;
+﻿using Mmc.MonoGame.Utils.Curves._2D.Polynomial;
 using Mmc.MonoGame.Utils.Tests.Extensions;
 using ScottPlot;
 
