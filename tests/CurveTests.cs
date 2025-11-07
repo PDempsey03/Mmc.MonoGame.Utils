@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
-using Mmc.MonoGame.Utils.Curves._2D;
 using Mmc.MonoGame.Utils.Curves._2D.Bezier;
+using Mmc.MonoGame.Utils.Curves._2D.Geometric;
 using Mmc.MonoGame.Utils.Curves._2D.Polynomial;
 using System.Reflection;
 
@@ -179,21 +179,6 @@ public class CurveTests
             SamplePoints = 50,
             FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
             ShowNormals = true
-        };
-
-        Curve2DVisualizer.VisualizeCurve(settings);
-    }
-
-    [TestMethod]
-    public void TestGenericPolynomialCurveCurve2D()
-    {
-        GenericPolynomialCurve2D test = new GenericPolynomialCurve2D(new Vector2(-5, 25), new Vector2(10, -100), new Vector2(0, 100));
-
-        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
-        {
-            Curve = test,
-            SamplePoints = 50,
-            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
         };
 
         Curve2DVisualizer.VisualizeCurve(settings);

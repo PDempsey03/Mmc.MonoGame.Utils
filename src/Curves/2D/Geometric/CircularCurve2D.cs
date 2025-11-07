@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Mmc.MonoGame.Utils.Curves._2D
+namespace Mmc.MonoGame.Utils.Curves._2D.Geometric
 {
     public class CircularCurve2D : Curve2D
     {
