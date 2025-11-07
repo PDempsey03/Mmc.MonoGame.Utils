@@ -136,6 +136,22 @@ public class CurveTests
     }
 
     [TestMethod]
+    public void TestEllipticalCurve2DWithNormals()
+    {
+        EllipticalCurve2D test = new EllipticalCurve2D(Vector2.Zero, new Vector2(5, 10), 0, 360);
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 50,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+            ShowNormals = true,
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+    }
+
+    [TestMethod]
     public void TestQuadraticBezierCurve2DWithNormals()
     {
         QuadraticBezierCurve2D test = new QuadraticBezierCurve2D(new Vector2(0, 0), new Vector2(10, 4), new Vector2(0, -8));
