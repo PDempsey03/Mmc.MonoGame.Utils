@@ -17,7 +17,8 @@ namespace Mmc.MonoGame.Utils.Tests
             double[] y = points.Select(p => (double)p.Y).ToArray();
 
             var plt = new Plot();
-            plt.Add.Scatter(x, y);
+            var scatter = plt.Add.Scatter(x, y);
+            scatter.MarkerSize = settings.MarkerSize;
             plt.Title(settings.Title);
             plt.XLabel(settings.XAxis);
             plt.YLabel(settings.YAxis);
@@ -34,7 +35,8 @@ namespace Mmc.MonoGame.Utils.Tests
                     double[] tx = tangentPoints.Select(p => (double)p.X).ToArray();
                     double[] ty = tangentPoints.Select(p => (double)p.Y).ToArray();
 
-                    plt.Add.Scatter(tx, ty);
+                    var lineScatter = plt.Add.Scatter(tx, ty);
+                    lineScatter.MarkerSize = settings.MarkerSize;
                 }
             }
 
@@ -50,7 +52,9 @@ namespace Mmc.MonoGame.Utils.Tests
                     double[] nx = normalPoints.Select(p => (double)p.X).ToArray();
                     double[] ny = normalPoints.Select(p => (double)p.Y).ToArray();
 
-                    plt.Add.Scatter(nx, ny);
+                    var lineScatter = plt.Add.Scatter(nx, ny);
+
+                    lineScatter.MarkerSize = settings.MarkerSize;
                 }
             }
 

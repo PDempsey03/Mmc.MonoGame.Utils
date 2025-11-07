@@ -10,6 +10,8 @@ namespace Mmc.MonoGame.Utils.Tests
 
         public required string FileName { get; set; }
 
+        public float MarkerSize { get; set; } = 5;
+
         public string Title { get; set; } = "Plot";
 
         public string XAxis { get; set; } = "X";
