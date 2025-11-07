@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Mmc.MonoGame.Utils.Curves._2D;
 using Mmc.MonoGame.Utils.Curves._2D.Bezier;
 using Mmc.MonoGame.Utils.Curves._2D.Geometric;
 using Mmc.MonoGame.Utils.Curves._2D.Polynomial;
@@ -192,9 +193,9 @@ public class CurveTests
         Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
         {
             Curve = test,
-            SamplePoints = 50,
+            SamplePoints = 100,
             FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
-            ShowNormals = true
+            UseEvenlySpacedPoints = true,
         };
 
         Curve2DVisualizer.VisualizeCurve(settings);
@@ -257,5 +258,44 @@ public class CurveTests
         };
 
         Curve2DVisualizer.VisualizeCurve(settings2);
+    }
+
+    [TestMethod]
+    public void TestCompoudCurve2DWithLineBezierCircle()
+    {
+        LinearCurve2D curve1 = new LinearCurve2D(1, 5, Vector2.Zero);
+        QuadraticBezierCurve2D curve2 = new QuadraticBezierCurve2D(curve1.GetPoint(1), new Vector2(5, 10), new Vector2(10, -10));
+        CircularCurve2D curve3 = new CircularCurve2D(curve2.GetPoint(1) - new Vector2(2, 0), 2, 0, 270);
+
+        CompoundCurve2D test = new CompoundCurve2D(curve1, curve2, curve3);
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 99,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+    }
+
+    [TestMethod]
+    public void TestCompoudCurve2DWithLineBezierCircleWithNormals()
+    {
+        LinearCurve2D curve1 = new LinearCurve2D(1, 5, Vector2.Zero);
+        QuadraticBezierCurve2D curve2 = new QuadraticBezierCurve2D(curve1.GetPoint(1), new Vector2(5, 10), new Vector2(10, -10));
+        CircularCurve2D curve3 = new CircularCurve2D(curve2.GetPoint(1) - new Vector2(2, 0), 2, 0, 270);
+
+        CompoundCurve2D test = new CompoundCurve2D(curve1, curve2, curve3);
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 99,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+            ShowNormals = true
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
     }
 }
