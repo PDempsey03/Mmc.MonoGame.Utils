@@ -320,4 +320,55 @@ public class CurveTests
 
         Assert.IsTrue(test.IsSmooth);
     }
+
+    [TestMethod]
+    public void TestEvenlySpacedTriangluarCurve2DWithNormals()
+    {
+        TriangularCurve2D test = new TriangularCurve2D(new Vector2(-5, 10), new Vector2(10, 0), new Vector2(-1, -10));
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 66,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+            UseEvenlySpacedPoints = true,
+            ShowNormals = true,
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+    }
+
+    [TestMethod]
+    public void TestEvenlySpacedQuadrilateralCurve2DWithNormals()
+    {
+        QuadrilateralCurve2D test = new QuadrilateralCurve2D(new Vector2(-5, 10), new Vector2(10, 12), new Vector2(8, -7), new Vector2(-6, -10));
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 66,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+            UseEvenlySpacedPoints = true,
+            ShowNormals = true,
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+    }
+
+    [TestMethod]
+    public void TestEvenlySpacedPolygonalCurve2D()
+    {
+        PolygonalCurve2D test = new PolygonalCurve2D(new Vector2(6, 0), new Vector2(-6, -6), new Vector2(5, -7), new Vector2(6, -10),
+            new Vector2(5, -2), new Vector2(10, 4), new Vector2(-7, 6), new Vector2(12, 2));
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 200,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+            UseEvenlySpacedPoints = true,
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+    }
 }
