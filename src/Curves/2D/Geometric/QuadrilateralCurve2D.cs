@@ -4,6 +4,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Geometric
 {
     public class QuadrilateralCurve2D : Curve2D
     {
+        public override bool IsSmooth => false;
+
         public override Vector2 GetPoint(float t)
         {
             throw new NotImplementedException();

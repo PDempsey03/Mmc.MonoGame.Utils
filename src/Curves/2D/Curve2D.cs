@@ -4,6 +4,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D
 {
     public abstract class Curve2D
     {
+        public abstract bool IsSmooth { get; }
+
         public abstract Vector2 GetPoint(float t);
 
         public abstract Vector2 GetTangent(float t);

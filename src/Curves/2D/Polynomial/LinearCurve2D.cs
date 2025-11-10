@@ -8,6 +8,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Polynomial
 
         public Vector2 End { get; set; }
 
+        public override bool IsSmooth => true;
+
         public LinearCurve2D(Vector2 start, Vector2 end)
         {
             Start = start;

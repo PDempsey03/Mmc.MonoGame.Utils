@@ -4,6 +4,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Geometric
 {
     public class PolygonalCurve2D : Curve2D
     {
+        public override bool IsSmooth => true; // TODO: could be if line so not always false
+
         public override Vector2 GetPoint(float t)
         {
             throw new NotImplementedException();

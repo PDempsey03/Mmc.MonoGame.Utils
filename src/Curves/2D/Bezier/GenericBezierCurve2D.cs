@@ -6,6 +6,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Bezier
     {
         public Vector2[] ControlPoints { get; set; }
 
+        public override bool IsSmooth => true;
+
         public GenericBezierCurve2D(params Vector2[] args)
         {
             ControlPoints = args;

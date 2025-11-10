@@ -12,6 +12,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Geometric
 
         public float EndingAngle { get; set; }
 
+        public override bool IsSmooth => true;
+
         public CircularCurve2D(Vector2 center, float radius, float startingAngle, float endingAngle)
         {
             Center = center;

@@ -11,6 +11,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Polynomial
         public Vector2 B { get; set; }
         public Vector2 C { get; set; }
 
+        public override bool IsSmooth => true;
+
         public QuadraticCurve2D(Vector2 a, Vector2 b, Vector2 c)
         {
             A = a;

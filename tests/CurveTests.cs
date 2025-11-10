@@ -298,4 +298,26 @@ public class CurveTests
 
         Curve2DVisualizer.VisualizeCurve(settings);
     }
+
+    [TestMethod]
+    public void TestSmoothCompoudCurve2DWithLineBezierCircle()
+    {
+        LinearCurve2D curve1 = new LinearCurve2D(0, 5, Vector2.Zero);
+        CubicBezierCurve2D curve2 = new CubicBezierCurve2D(curve1.GetPoint(1), curve1.GetPoint(1) + new Vector2(10, 0), curve1.GetPoint(1) + new Vector2(10, -10), curve1.GetPoint(1) + new Vector2(0, -10));
+        CircularCurve2D curve3 = new CircularCurve2D(curve2.GetPoint(1) - new Vector2(0, 2), 2, 90, 360);
+
+        CompoundCurve2D test = new CompoundCurve2D(curve1, curve2, curve3);
+
+        Curve2DVisualizationSettings settings = new Curve2DVisualizationSettings()
+        {
+            Curve = test,
+            SamplePoints = 300,
+            FileName = $"{MethodBase.GetCurrentMethod()?.Name ?? "ERROR"}.png",
+            MarkerSize = 0,
+        };
+
+        Curve2DVisualizer.VisualizeCurve(settings);
+
+        Assert.IsTrue(test.IsSmooth);
+    }
 }

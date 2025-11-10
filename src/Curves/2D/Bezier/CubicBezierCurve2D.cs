@@ -4,6 +4,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Bezier
 {
     public class CubicBezierCurve2D : Curve2D
     {
+        public override bool IsSmooth => true;
+
         public Vector2 P0 { get; set; }
 
         public Vector2 P1 { get; set; }

@@ -11,6 +11,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Bezier
 
         public Vector2 P2 { get; set; }
 
+        public override bool IsSmooth => true;
+
         public QuadraticBezierCurve2D(Vector2 p0, Vector2 p1, Vector2 p2)
         {
             P0 = p0;

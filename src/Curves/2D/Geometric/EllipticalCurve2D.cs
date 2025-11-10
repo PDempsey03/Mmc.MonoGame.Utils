@@ -12,6 +12,8 @@ namespace Mmc.MonoGame.Utils.Curves._2D.Geometric
 
         public float EndingAngle { get; set; }
 
+        public override bool IsSmooth => true;
+
         public EllipticalCurve2D(Vector2 center, Vector2 radius, float startingAngle, float endingAngle)
         {
             Center = center;
